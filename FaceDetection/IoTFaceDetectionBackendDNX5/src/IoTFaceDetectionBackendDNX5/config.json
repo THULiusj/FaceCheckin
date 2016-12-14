@@ -1,0 +1,15 @@
+﻿{
+  "AppSettings": {
+    "SiteTitle": "IoTFaceDetectionBackendDNX5",
+    "OxfordSubscriptionKeyPrimary": "[OxfordFaceAPIPrimaryKey]",
+    "MemberGroupId": "[PersonGroupId]",
+    "StorageAccount": "[StorageAccountName]",
+    "StorageKey": "[StorageAccountKey]"
+  },
+  "Data": {
+    "DefaultConnection": {
+      "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-WebApplication1-468b47a2-ab15-43fb-ab8e-2410981865fa;Trusted_Connection=True;MultipleActiveResultSets=true"
+    }
+  }
+}
+

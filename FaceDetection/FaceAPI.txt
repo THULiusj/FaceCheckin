@@ -1,0 +1,16 @@
+脸部API开发指南
+在微信公众号后台的开发中需要调用脸部API去完成成员注册和其脸部特征数据库建立，在现场认证应用的后台中需要调用脸部API去完成照片中脸部的检测和身份的识别。
+具体过程是：
+1)	预先PersonGroup建立
+a.	首先调用CreatePersonGroup (C#: CreatePersonGroupAsync) 创建PersonGroup，获得PersonGroup的ID
+1)	微信中成员注册和人脸数据库建立：建Person->上传照片至对应Person->Train模型
+a.	照片需要先用Detect (C#: DetectAsync) 上传人脸获得FaceId，并检查照片是否合法。
+b.	如果要求同一人上传多张照片作为原始人脸数据，这多张照片需要经过Verification (C#: VerifyAsync) 去验证这几张照片是否属于同一人。
+c.	上述完成后，用CreatePerson (C#: CreatePersonAsync) 创建人物获得PersonId（这个personid最好跟用户的注册信息关联，方便调用），同时可以将已有的FaceId添加进去
+d.	还可以通过AddPersonFace (C#: UploadFaceAsync) 将FaceId传入PersonId，丰富该人的人脸数据库
+e.	调用TrainPersonGroup (C#: TrainAsync)去训练模型(必需)
+注： 从微信获得的图片最好从微信上下载下来再上传给Face API，提高准确率，而不是直接用微信获得图片链接(这是微信缩略图)
+2)	人脸认证：上传照片->认证Identity
+a.	用Detect (C#: DetectAsync)上传人脸获得FaceId
+b.	调用Identification (C#: IdentityAsync)将FaceId上传检测来认证人脸是属于这个PersonGroup的哪个成员
+c.	如果存在这一成员，会得到PersonId，可以用PersonId去通过GetPerson去获取这个人的详细备注信息。如果不存在，candidates里面是空的。
